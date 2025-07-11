@@ -12,6 +12,13 @@ func NewTextBuffer() *TextBuffer {
 	}
 }
 
+func NewTextBufferWithLines(lines [][]rune) *TextBuffer {
+	return &TextBuffer{
+		Lines: lines,
+		Dirty: false,
+	}
+}
+
 type Buffer interface {
 	InsertRune(line, col int, ch rune)
 	DeleteRune(line, col int, ch rune)
