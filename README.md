@@ -143,4 +143,4 @@ texteditor/
 
 ## 👨‍💻 Author
 
-Built by [Satyam Shree](https://github.com/satya-sudo) in stealth mode during mandatory office days 😎
+Built by [Satyam Shree](https://github.com/satya-sudo)

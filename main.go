@@ -1,21 +1,32 @@
 package main
 
 import (
-  "fmt"
+	"editGo/cmd/app"
+	"fmt"
+	tea "github.com/charmbracelet/bubbletea"
+	"log"
+	"os"
 )
 
-//TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.</p>
+func init() {
+	logFile, err := os.OpenFile("editor.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Println("Could not open log file:", err)
+		os.Exit(1)
+	}
+	log.SetOutput(logFile)
+}
 
 func main() {
-  //TIP <p>Press <shortcut actionId="ShowIntentionActions"/> when your caret is at the underlined text
-  // to see how GoLand suggests fixing the warning.</p><p>Alternatively, if available, click the lightbulb to view possible fixes.</p>
-  s := "gopher"
-  fmt.Println("Hello and welcome, %s!", s)
+	var model app.Model
+	if len(os.Args) > 1 {
+		model = app.NewModel(os.Args[1]) // empty fil
 
-  for i := 1; i <= 5; i++ {
-	//TIP <p>To start your debugging session, right-click your code in the editor and select the Debug option.</p> <p>We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-	// for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.</p>
-	fmt.Println("i =", 100/i)
-  }
+	} else {
+		model = app.NewModel("")
+	}
+	p := tea.NewProgram(model)
+	if err := p.Start(); err != nil {
+		panic(err)
+	}
 }
