@@ -24,6 +24,9 @@ func NewFile(filePath string) (*FileManager, error) {
 	for scanner.Scan() {
 		lines = append(lines, []rune(scanner.Text()))
 	}
+	if len(lines) == 0 {
+		lines = [][]rune{{}} // ensure buffer isn't empty
+	}
 	buffer := editor.NewTextBufferWithLines(lines)
 	fm := &FileManager{
 		FilePath: filePath,
