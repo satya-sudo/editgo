@@ -9,7 +9,7 @@ import (
 )
 
 func TestAutoSave_DoesNotStartForEmptyPath(t *testing.T) {
-	fm, _ := NewEmptyFile()
+	fm, _ := NewEmptyFile("")
 	auto := NewAutoSave(fm, 100*time.Millisecond)
 	auto.Start()
 
@@ -24,7 +24,7 @@ func TestAutoSave_SavesWhenDirty(t *testing.T) {
 	filePath := filepath.Join(dir, "autosave_test.txt")
 
 	// Create file with one line
-	fm, err := NewEmptyFile()
+	fm, err := NewEmptyFile("")
 	if err != nil {
 		t.Fatalf("failed to create buffer: %v", err)
 	}
@@ -56,7 +56,7 @@ func TestAutoSave_Stop(t *testing.T) {
 	dir := t.TempDir()
 	filePath := filepath.Join(dir, "stop_test.txt")
 
-	fm, _ := NewEmptyFile()
+	fm, _ := NewEmptyFile("")
 	fm.FilePath = filePath
 	fm.Buffer.Lines = [][]rune{[]rune("stop test")}
 	fm.Buffer.SetDirty(true)
