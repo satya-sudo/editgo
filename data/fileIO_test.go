@@ -9,7 +9,7 @@ import (
 )
 
 func TestNewEmptyFile(t *testing.T) {
-	fm, _ := NewEmptyFile()
+	fm, _ := NewEmptyFile("")
 	if fm.FilePath != "" {
 		t.Errorf("expected empty path, got %s", fm.FilePath)
 	}
@@ -22,7 +22,7 @@ func TestSaveAsAndLoad(t *testing.T) {
 	tmpDir := t.TempDir()
 	filePath := filepath.Join(tmpDir, "test.txt")
 
-	fm, _ := NewEmptyFile()
+	fm, _ := NewEmptyFile("")
 	fm.Buffer.Lines = [][]rune{
 		[]rune("hello"),
 		[]rune("world"),
@@ -52,7 +52,7 @@ func TestSaveAsAndLoad(t *testing.T) {
 }
 
 func TestSaveWithoutPath(t *testing.T) {
-	fm, _ := NewEmptyFile()
+	fm, _ := NewEmptyFile("")
 	err := fm.Save()
 	if err == nil {
 		t.Errorf("expected error when saving without path")
