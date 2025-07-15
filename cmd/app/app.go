@@ -5,6 +5,9 @@ import (
 	"editGo/editor"
 	"editGo/ui"
 	tea "github.com/charmbracelet/bubbletea"
+	"os"
+	"os/exec"
+	"runtime"
 	"time"
 )
 
@@ -23,11 +26,9 @@ func NewModel(filePath string) Model {
 
 	if filePath != "" {
 		file, err = data.NewFile(filePath)
-	} else {
-		file, err = data.NewEmptyFile()
 	}
 	if err != nil {
-		panic(err)
+		file, _ = data.NewEmptyFile(filePath)
 	}
 
 	buffer := file.Buffer
@@ -87,6 +88,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.Cursor.X = 0
 		case msg.Type == tea.KeyCtrlQ, msg.Type == tea.KeyCtrlC:
 			m.AutoSaver.Stop()
+			clearTerminal()
 			return m, tea.Quit
 		case msg.Type == tea.KeyUp:
 			m.Cursor.MoveUp(m.Buffer)
@@ -117,6 +119,21 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 	}
 	return m, nil
+}
+
+func clearTerminal() {
+	var cmd *exec.Cmd
+
+	switch runtime.GOOS {
+	case "windows":
+		cmd = exec.Command("cmd", "/c", "cls")
+	default: // Unix-like (Linux, macOS, etc.)
+		cmd = exec.Command("clear")
+	}
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	_ = cmd.Run()
 }
 
 func (m Model) View() string {

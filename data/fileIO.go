@@ -35,11 +35,11 @@ func NewFile(filePath string) (*FileManager, error) {
 	return fm, nil
 }
 
-func NewEmptyFile() (*FileManager, error) {
+func NewEmptyFile(filePath string) (*FileManager, error) {
 	buffer := editor.NewTextBuffer()
 	fm := &FileManager{
 		Buffer:   buffer,
-		FilePath: "",
+		FilePath: filePath,
 	}
 	return fm, nil
 }

@@ -20,8 +20,7 @@ func init() {
 func main() {
 	var model app.Model
 	if len(os.Args) > 1 {
-		model = app.NewModel(os.Args[1]) // empty fil
-
+		model = app.NewModel(os.Args[1])
 	} else {
 		model = app.NewModel("")
 	}
